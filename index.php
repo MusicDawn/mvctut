@@ -1,15 +1,23 @@
 <!-- ssh-keygen -t rsa -b 4096 -C "panagiotis.d.kostakis@gmail.com" -->
 
 <?php
-// Here we connect to our database that we created in ep 3 in table plus
-$con = new mysqli('localhost', 'panos', '', 'mvctut');
+// Try-Throw-Catch is usable if we want to ???
+try {
+    // Here we connect to our database that we created in ep 3 in table plus, the passward should be empty
+    // because we haven't put anything in it, if we put then the Try-Throw-Catch will find it
+    $con = new mysqli('localhost', 'panos', '', 'mvctut');
+
+    if ($con->connect_error) {
+        throw new Exception('Error: ' . $con->connect_error);
+    }
+} catch (Exception $ex) {
+    // We created a file in VANILLA error.log and below with those parameters we send the error text there
+    error_log($ex->getMessage(),3, 'error.log');
+    echo "Can't connect at the momment!";
+}
+
 
 // This code will be excuted when we press Submit
-echo "<pre>";
-// print_r($_POST);
-// var_dump($con);
-echo "</pre>";
-
 if (isset($_POST["submit"])) {
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
