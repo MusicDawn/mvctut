@@ -5,7 +5,7 @@
 try {
     // Here we connect to our database that we created in ep 3 in table plus, the passward should be empty
     // because we haven't put anything in it, if we put then the Try-Throw-Catch will find it
-    $con = new mysqli('localhost', 'panos', '', 'mvctut');
+    $con = new mysqli('localhost', 'panos', 'aa', 'mvctut');
 
     if ($con->connect_error) {
         throw new Exception('Error: ' . $con->connect_error);
