@@ -1,18 +1,19 @@
 <!-- ssh-keygen -t rsa -b 4096 -C "panagiotis.d.kostakis@gmail.com" -->
+<!-- vanilla.test the URL from valet -->
 
 <?php
 // Try-Throw-Catch is usable if we want to ???
 try {
     // Here we connect to our database that we created in ep 3 in table plus, the passward should be empty
     // because we haven't put anything in it, if we put then the Try-Throw-Catch will find it
-    $con = new mysqli('localhost', 'panos', 'aa', 'mvctut');
+    $con = new mysqli('localhost', 'panos', '', 'mvctut');
 
     if ($con->connect_error) {
         throw new Exception('Error: ' . $con->connect_error);
     }
 } catch (Exception $ex) {
     // We created a file in VANILLA error.log and below with those parameters we send the error text there
-    error_log($ex->getMessage(),3, 'error.log');
+    error_log($ex->getMessage(), 3, 'error.log');
     echo "Can't connect at the momment!";
 }
 
@@ -24,8 +25,8 @@ if (isset($_POST["submit"])) {
     $email = $_POST['email'];
     // Here we excecute the querry so whatever we write into our form will go into database.
     $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES ('$first_name' , '$last_name' , '$email');";
-    $con->query($query);
-    // var_dump($con->query("SELECT * FROM users WHERE id = 1;"));
+    //Since we using migration.php file we have to use the METHOD multy_query($....) to our $con so we instead of $con->query($query); we have -->
+    $con->multi_query($query);
 }
 ?>
 
