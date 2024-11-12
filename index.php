@@ -2,10 +2,10 @@
 <!-- vanilla.test the URL from valet -->
 
 <?php
-// Try-Throw-Catch is usable if we want to ???
+// Try-Throw-Catch is used to facilitate debugging.
 try {
-    // Here we connect to our database that we created in ep 3 in table plus, the passward should be empty
-    // because we haven't put anything in it, if we put then the Try-Throw-Catch will find it
+    // Here we connect to our database that we created in ep 3 in table plus, the passward should be empty in our case.
+    // Because we haven't put anything in it, if we put then the Try-Throw-Catch will find it
     $con = new mysqli('localhost', 'panos', '', 'mvctut');
 
     if ($con->connect_error) {
@@ -24,9 +24,20 @@ if (isset($_POST["submit"])) {
     $last_name = $_POST['last_name'];
     $email = $_POST['email'];
     // Here we excecute the querry so whatever we write into our form will go into database.
-    $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES ('$first_name' , '$last_name' , '$email');";
+    // On valued insteasd of '$first_name' , '$last_name' , '$email' we use ? , ? , ? since on $statement->bind_param we use them
+    $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES (? , ? , ?)";
+
     //Since we using migration.php file we have to use the METHOD multy_query($....) to our $con so we instead of $con->query($query); we have -->
-    $con->multi_query($query);
+    //Although like this we are not protected since someone can write code in out inputs and for example he can delete our table `users`.
+    // $con->multi_query($query);
+
+    //Here we using prepare / bind_param / excecute so we protect our inputs.
+    //We start with prepare Method.
+    $statement = $con->prepare($query);
+    //Then with bind_param Method we use the "sss" since we want to sanitize 3 strings if we want to sanitize int we use i, d for float, d for blob.
+    $statement->bind_param("sss", $first_name, $last_name, $email);
+    // Lastly we excecute
+    $statement->execute();
 }
 ?>
 

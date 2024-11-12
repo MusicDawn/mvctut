@@ -1,8 +1,8 @@
 <?php
 $con = new mysqli('localhost', 'panos', '', 'mvctut');
 
-// The porpuse of this file is to have the list that we have aleady created in seperate file so when we delete it we can bring it back from the terminal -->
-// Terminal code : 1) php -a (for interactive shell) 2) php migration.php, && by that we have our list back to out table plus.
+// The porpuse of this file is to have the list that we have aleady created in a seperate file so when we delete it, we can bring it back from the terminal -->
+// Terminal code : 1) Open a terminal in the location of this file and type php migration.php, && by that we have our list back to out table plus.
 $query = "CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL,
