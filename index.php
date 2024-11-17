@@ -11,12 +11,18 @@ try {
     if ($con->connect_error) {
         throw new Exception('Error: ' . $con->connect_error);
     }
+    //In the parenthesis Exception $ex we basicly instatiating $ex since it is a Typehint.
 } catch (Exception $ex) {
     // We created a file in VANILLA error.log and below with those parameters we send the error text there
     error_log($ex->getMessage(), 3, 'error.log');
     echo "Can't connect at the momment!";
 }
 
+// Those 2 must be outside of the scope of if(....."submit") and we have 2 of them because ther are 2 error 
+// 1) "Your email is already being used
+// 2) "Your email is required!
+$errorbool1 = false;
+$errorbool2 = false;
 
 // This code will be excuted when we press Submit
 if (isset($_POST["submit"])) {
@@ -36,8 +42,28 @@ if (isset($_POST["submit"])) {
     $statement = $con->prepare($query);
     //Then with bind_param Method we use the "sss" since we want to sanitize 3 strings if we want to sanitize int we use i, d for float, d for blob.
     $statement->bind_param("sss", $first_name, $last_name, $email);
+
+
+
     // Lastly we excecute
-    $statement->execute();
+    // Since we using Php 8+ we hav eto put try/throw/catch on excecute also.
+    try {
+        if ($statement->execute()) {
+            // If it excecutes then we going to success.php
+            header("Location: success.php");
+            exit;
+        }
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() === 1062) { // Duplicate entry
+            $errorbool1 = true;
+        } else if ($e->getCode() === 3819) { // Invalid email format (if triggered by a constraint)
+            $errorbool2 = true;
+        } else {
+            // Log unexpected errors for debugging
+            error_log($e->getMessage(), 3, 'error.log');
+            echo "An unexpected error occurred!";
+        }
+    }
 }
 ?>
 
@@ -66,8 +92,14 @@ if (isset($_POST["submit"])) {
                 <label for="last_name">Last Name</label>
             </div>
             <div class="inputBox">
-                <input type="text" id="email" name="email" required>
+                <input type="email" id="email" name="email">
                 <label for="email">Email</label>
+                <?php if ($errorbool1) {
+                    echo '<div style = "color: red" >Your email is already being used!</div> <br> <br>';
+                } else if ($errorbool2) {
+                    echo '<div style = "color: red" >Your email is required!</div> <br> <br>';
+                }
+                ?>
             </div>
             <div class="inputBox">
                 <!-- Submit basicly will set this form into action -->
