@@ -46,24 +46,14 @@ if (isset($_POST["submit"])) {
 
 
     // Lastly we excecute
-    // Since we using Php 8+ we hav eto put try/throw/catch on excecute also.
-    try {
-        if ($statement->execute()) {
-            // If it excecutes then we going to success.php
-            header("Location: success.php");
-            exit;
-        }
-    } catch (mysqli_sql_exception $e) {
-        if ($e->getCode() === 1062) { // Duplicate entry
-            $errorbool1 = true;
-        } else if ($e->getCode() === 3819) { // Invalid email format (if triggered by a constraint)
-            $errorbool2 = true;
-        } else {
-            // Log unexpected errors for debugging
-            error_log($e->getMessage(), 3, 'error.log');
-            echo "An unexpected error occurred!";
-        }
-    }
+    if ($statement->execute()) {
+        // If it excecutes then we going to success.php
+        header("Location: success.php");
+        exit;
+    } else if ($con->errno === 1062)
+        $errorbool1 = true;
+    else if ($con->errno === 3819)
+        $errorbool2 = true;
 }
 ?>
 
