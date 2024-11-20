@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit bootstrap="vendor/autoload.php"
-    color="true"
+    colors="true"
     stoponfailure="false">
  
 
  <!-- This will find tests/IndexTest.php -->
+ <!-- The names are standard in directory tests and the first word of the php file in our cases Index && Test -->
     <testsuites>
         <testsuite name="Index">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+</phpunit>    
