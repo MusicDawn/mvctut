@@ -10,5 +10,8 @@
         <testsuite name="Index">
             <directory>tests</directory>
         </testsuite>
+        <testsuite name="Form">
+            <directory>tests</directory>
+        </testsuite>
     </testsuites>
 </phpunit>    

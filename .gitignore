@@ -1,3 +1,5 @@
 /.vscode
 error.log
 /vendor
+.phpunit.result.cache
+env.php
