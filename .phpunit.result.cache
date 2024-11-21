@@ -1,1 +1,1 @@
-{"version":1,"defects":{"FormTest::testFormSubmission":3,"IndexTest::testIndexOutput":4},"times":{"IndexTest::testConnection":0.001,"IndexTest::testIndexOutput":0.075,"FormTest::testFormSubmission":0.013,"FormTest::testForDuplicateEmail":0.009}}
+{"version":1,"defects":{"FormTest::testFormSubmission":3,"IndexTest::testIndexOutput":4},"times":{"IndexTest::testConnection":0.025,"IndexTest::testIndexOutput":0.075,"FormTest::testFormSubmission":0.4,"FormTest::testForDuplicateEmail":0.035}}

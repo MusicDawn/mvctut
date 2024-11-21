@@ -19,7 +19,7 @@ function createUse($con, $first_name, $last_name, $email){
     // Lastly we excecute
     if ($statement->execute()) {
         // If it excecutes then we going to success.php
-        header("Location: success.php");
+        header("Location: views/success.php");
         exit;
     } else if ($con->errno === 1062)
         $errorbool1 = true;

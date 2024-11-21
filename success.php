@@ -1,1 +1,0 @@
-<div>Press for <a href="./index.php">Home</a></div>
