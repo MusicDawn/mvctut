@@ -1,5 +1,7 @@
 <?php
-function createUse($con, $first_name, $last_name, $email){
+function createUser($con, $first_name, $last_name, $email){
+    // global $errorbool1;
+    // global $errorbool2;
     // Here we excecute the querry so whatever we write into our form will go into database.
     // On valued insteasd of '$first_name' , '$last_name' , '$email' we use ? , ? , ? since on $statement->bind_param we use them
     $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES (? , ? , ?)";
@@ -18,8 +20,8 @@ function createUse($con, $first_name, $last_name, $email){
 
     // Lastly we excecute
     if ($statement->execute()) {
-        // If it excecutes then we going to success.php
-        header("Location: views/success.php");
+        // If it excecutes then we going to success.php, header is method to go to the specific location.
+        header("Location: index.php");
         exit;
     } else if ($con->errno === 1062)
         $errorbool1 = true;
