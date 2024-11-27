@@ -26,8 +26,8 @@ class UserModel
             header("Location: ../index.php");
             exit;
         } else if ($con->errno === 1062)
-            $errorbool1 = true;
+            $GLOBALS['errorbool1'] = true;
         else if ($con->errno === 3819)
-            $errorbool2 = true;
+            $GLOBALS['errorbool2'] = true;
     }
 }

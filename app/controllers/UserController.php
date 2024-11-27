@@ -1,13 +1,19 @@
 <?php
-
+$errorbool1 = false;
+$errorbool2 = false;
 // Those 2 must be outside of the scope of if(....."submit") and we have 2 of them because ther are 2 error 
 // 1) "Your email is already being used
 // 2) "Your email is required!
-$errorbool1 = false;
-$errorbool2 = false;
+
 
 class UserController
 {
+    function home()
+    {
+        global $errorbool1;
+        global $errorbool2;
+        require_once('app/views/home.php');
+    }
     function create($con)
     {
         // This code will be excuted when we press Submit
@@ -20,10 +26,14 @@ class UserController
             $store->createUser($con, $first_name, $last_name, $email);
         }
     }
+}
 
+class RegisterSuccess
+{
     function success()
     {
         require_once('app/views/success.php');
     }
+
 }
 ?>
