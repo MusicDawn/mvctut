@@ -1,4 +1,9 @@
 <?php
+//Namespaces are defined in composer.json
+namespace UserControllerSpace;
+
+use UserModelNamespace\UserModel;
+
 $errorbool1 = false;
 $errorbool2 = false;
 // Those 2 must be outside of the scope of if(....."submit") and we have 2 of them because ther are 2 error 
@@ -23,17 +28,18 @@ class UserController
             $email = $_POST['email'];
             //Since we are in a class now we have to instatiate the class UserModel in order to have createUser() function working.
             $store = new UserModel;
-            $store->createUser($con, $first_name, $last_name, $email);
+            $result = $store->createUser($con, $first_name, $last_name, $email);
+
+            switch ($result) {
+                case 0:
+                    require_once('app/views/success.php');
+                    break;
+                case 1062:
+                    break;
+                case 3819;
+                    break;
+            }
         }
     }
 }
-
-class RegisterSuccess
-{
-    function success()
-    {
-        require_once('app/views/success.php');
-    }
-
-}
-?>
+// 

@@ -1,5 +1,5 @@
 <div class="box">
-    <!-- // Form -->
+        <!-- // Form -->
     <form action="index.php" method="post">
         <div class="inputBox">
             <!-- In those inputs PHP will look for the attribute name=... the id=.. is for CSS -->

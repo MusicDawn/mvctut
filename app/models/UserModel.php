@@ -1,5 +1,7 @@
 <?php
 
+namespace UserModelNamespace;
+
 class UserModel
 {
     function createUser($con, $first_name, $last_name, $email)
@@ -21,13 +23,7 @@ class UserModel
 
 
         // Lastly we excecute
-        if ($statement->execute()) {
-            // If it excecutes then we going to success.php, header is method to go to the specific location.
-            header("Location: ../index.php");
-            exit;
-        } else if ($con->errno === 1062)
-            $GLOBALS['errorbool1'] = true;
-        else if ($con->errno === 3819)
-            $GLOBALS['errorbool2'] = true;
+        //!!!!! THIS IS A TERNARY is like a condensed version of an if-else statement and the syntax is **(condition) ? (value_if_true) : (value_if_false);**!!!!!!!!!!
+        $statement->execute() ? 0 : $con->errno;
     }
 }
