@@ -30,16 +30,16 @@ require_once('mysqlconnect.php');
         $home = new UserController;
         $home->home();
 
-    } else if ($_SERVER['REQUEST_URI'] == "/index.php" && $_SERVER['REQUEST_METHOD'] == 'POST') {
+    } else if ($_SERVER['REQUEST_URI'] == "/index.php") {
         //We instatiating so we can use the function create() which is inside UserController class.
         $creator = new UserController;
-        $creator->create($con);
+        $result = $creator->create($con);
+        return $result;
     } 
     ?>
 
     <!-- This is so we can see at the bottom of the page the $_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_URI']. -->
     <pre style="position: absolute; bottom :0; left: 5px;">
-    
      Method : <?php echo ($_SERVER['REQUEST_METHOD']); ?>
      <br>
      URI :<?php echo ($_SERVER['REQUEST_URI']); ?>       

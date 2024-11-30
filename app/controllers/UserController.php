@@ -15,8 +15,6 @@ class UserController
 {
     function home()
     {
-        global $errorbool1;
-        global $errorbool2;
         require_once('app/views/home.php');
     }
     function create($con)
@@ -35,10 +33,13 @@ class UserController
                     require_once('app/views/success.php');
                     break;
                 case 1062:
+                    require_once('app/views/home.php');
                     break;
                 case 3819;
+                    require_once('app/views/home.php');
                     break;
             }
+            return $result;
         }
     }
 }
