@@ -24,8 +24,10 @@ class UserModel
 
         // Lastly we excecute
         //!!!!! THIS IS A TERNARY is like a condensed version of an if-else statement and the syntax is **(condition) ? (value_if_true) : (value_if_false);**!!!!!!!!!!
-        return $statement->execute() ? 0 : $con->errno;
+        // return $statement->execute() ? 0 : $con->errno;
         // if($statement->execute())return 0; else return $con->errno
+        $statement->execute();
+        return $con->errno;
 
     }
 }
