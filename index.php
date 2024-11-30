@@ -33,8 +33,7 @@ require_once('mysqlconnect.php');
     } else if ($_SERVER['REQUEST_URI'] == "/index.php") {
         //We instatiating so we can use the function create() which is inside UserController class.
         $creator = new UserController;
-        $result = $creator->create($con);
-        return $result;
+        $creator->create($con);
     } 
     ?>
 

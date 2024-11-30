@@ -1,4 +1,6 @@
 <?php
+//A PHP controller handles requests, validates input, delegates business logic to models or services, prepares data for views, and sends appropriate responses
+
 //Namespaces are defined in composer.json
 namespace UserControllerSpace;
 
@@ -33,13 +35,14 @@ class UserController
                     require_once('app/views/success.php');
                     break;
                 case 1062:
+                    $error =  '<div style = "color: red" >Your email is already being used!</div> <br> <br>';
                     require_once('app/views/home.php');
                     break;
                 case 3819;
+                    $error =  '<div style = "color: red" >You must write your email!</div> <br> <br>';
                     require_once('app/views/home.php');
                     break;
             }
-            return $result;
         }
     }
 }

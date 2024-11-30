@@ -13,12 +13,7 @@
         <div class="inputBox">
             <input type="email" id="email" name="email">
             <label for="email">Email</label>
-            <?php if ($result==1062) {
-                echo '<div style = "color: red" >Your email is already being used!</div> <br> <br>';
-            } else if ($result==3819) {
-                echo '<div style = "color: red" >Your email is required!</div> <br> <br>';
-            }
-            ?>
+            <?php if(isset($error)) echo $error;?>
         </div>
         <div class="inputBox">
             <!-- Submit basicly will set this form into action -->
