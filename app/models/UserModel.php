@@ -28,6 +28,5 @@ class UserModel
         // if($statement->execute())return 0; else return $con->errno
         $statement->execute();
         return $con->errno;
-
     }
 }

@@ -1,6 +1,6 @@
 <?php
 //First Test Case
-//Here we start our TEST with phpunit in our case we will check if the connection to out databese works.
+//Here we start our TEST with PHPUnit in this case we will check if the connection to out databese works.
 
 // We do that so we don't have to wirte all this (PHPUnit\Framework\TestCase;) in our class extend point.
 use PHPUnit\Framework\TestCase;

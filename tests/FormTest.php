@@ -1,6 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use UserModelNamespace\UserModel;
+
 //We set up a phpunit test by setting it up as a class
 class FormTest extends TestCase
 {
@@ -15,7 +17,7 @@ class FormTest extends TestCase
         $_POST = [
             "first_name" => "Panos",
             "last_name" => "Kwstakis",
-            "email" => "panos@gmail.com",
+            "email" => "panos@kim.gr",
             "submit" => "Submit"
         ];
 
@@ -31,7 +33,7 @@ class FormTest extends TestCase
 
         //You set up the ending as a variable and  then you make the assertTrue so we know that it is correct ??
         $result = ($statement->execute());
-        $this->assertTrue($result);
+        $this->assertTrue($result, "If this test has failed, delete entry in Database!");
     }
 
     public function testForDuplicateEmail()
@@ -39,7 +41,7 @@ class FormTest extends TestCase
         $_POST = [
             "first_name" => "Panos",
             "last_name" => "Kwstakis",
-            "email" => "panos@gmail.com",
+            "email" => "panos@kim.gr",
             "submit" => "Submit"
         ];
 
@@ -55,14 +57,41 @@ class FormTest extends TestCase
 
         //You set up the ending as a variable and  then you make the assertTrue so we know that it is correct ??
         $result = ($statement->execute());
-        $this->assertFalse($result);
+        $this->assertFalse($result, "If this test has failed, delete entry in Database!");
         $this->deleteRow();
     }
 
-    // Instead of tearDown we use another method which is deleteRow (from the database) so the test can work.
-    public function deleteRow()  
+
+    public function testFormSubmissionFunc()
     {
-        $query = "DELETE FROM users WHERE email = 'panos@gmail.com'";
+        $query = new UserModel;
+        $result = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
+        // Since createUser returns 0; we have to use the method assertEquals.
+        $this->assertEquals(0, $result, "If this test has failed, delete entry in Database!");
+    }
+
+    public function testForDuplicateEmailFunc()
+    {
+        $query = new UserModel;
+        $result = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
+        // Since createUser returns 1062; (since we have duplicate email) we have to use the method assertEquals.
+        $this->assertEquals(1062, $result, "If this test has failed, delete entry in Database!");
+        $this->deleteRow();
+    }
+
+
+    // Instead of tearDown we use another method which is deleteRow (from the database) so the test can work.
+    public function deleteRow()
+    {
+        $query = "DELETE FROM users WHERE email = 'panos@kim.gr'";
         $this->con->query($query);
+    }
+
+    public function testForEmptyEmailField()
+    {
+        $query = new UserModel;
+        $result = $query->createUser($this->con, 'panos', 'kostakis', '');
+        // Since createUser returns 3819; (since we have duplicate email) we have to use the method assertEquals.
+        $this->assertEquals(3819, $result);
     }
 }
