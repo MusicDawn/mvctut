@@ -1,5 +1,6 @@
 <div class="box">
         <!-- // Form -->
+         <!-- // When we press Submit button we basicly create the Superglobal ($_POST in our case).The Superglobal did not exist until we click submit -->
     <form action="index.php" method="post">
         <div class="inputBox">
             <!-- In those inputs PHP will look for the attribute name=... the id=.. is for CSS -->
@@ -13,6 +14,7 @@
         <div class="inputBox">
             <input type="email" id="email" name="email">
             <label for="email">Email</label>
+            <!-- Here the isset checks if the $error exists (check UserController.php) -->
             <?php if(isset($error)) echo $error;?>
         </div>
         <div class="inputBox">

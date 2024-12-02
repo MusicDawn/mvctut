@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use UserModelNamespace\UserModel;
 
-//We set up a phpunit test by setting it up as a class
+//We set up a phpunit test by setting it up as a class!
 class FormTest extends TestCase
 {
     private $con;
@@ -31,7 +31,8 @@ class FormTest extends TestCase
 
         $statement->bind_param("sss", $first_name, $last_name, $email);
 
-        //You set up the ending as a variable and  then you make the assertTrue so we know that it is correct ??
+        //You set up the ending as a variable and then you make the assertTrue so we know that it is correct.
+        // "If this test has failed, delete entry in Database!" This message will appear in Terminal so the other Devs should know what i going on.
         $result = ($statement->execute());
         $this->assertTrue($result, "If this test has failed, delete entry in Database!");
     }
@@ -62,6 +63,8 @@ class FormTest extends TestCase
     }
 
 
+
+    //----------- Those 3 Integration Tests check if the code in UserModel does what is sopused to do!
     public function testFormSubmissionFunc()
     {
         $query = new UserModel;

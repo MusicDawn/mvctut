@@ -22,6 +22,7 @@ class UserController
     function create($con)
     {
         // This code will be excuted when we press Submit
+        // The isset here basicly look if the Superglobal $_POST is created. (check home.php)
         if (isset($_POST["submit"])) {
             $first_name = $_POST['first_name'];
             $last_name = $_POST['last_name'];
@@ -31,6 +32,7 @@ class UserController
             $result = $store->createUser($con, $first_name, $last_name, $email);
 
             switch ($result) {
+                // The errno === 0 ; mean that we dont have an ERROR!!
                 case 0:
                     require_once('app/views/success.php');
                     break;
