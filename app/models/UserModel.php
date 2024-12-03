@@ -2,6 +2,12 @@
 // Model only takes care of what goes into the Database.
 namespace UserModelNamespace;
 
+use Exception;
+
+use function PHPUnit\Framework\throwException;
+
+use mysqli_stmt;
+
 class UserModel
 {
     function createUser($con, $first_name, $last_name, $email)
@@ -23,11 +29,31 @@ class UserModel
 
 
         // Lastly we excecute
+
         //!!!!! THIS IS A TERNARY is like a condensed version of an if-else statement and the syntax is **(condition) ? (value_if_true) : (value_if_false);**!!!!!!!!!!
         // return $statement->execute() ? 0 : $con->errno;
-        // if($statement->execute())return 0; else return $con->errno
-        
-        $statement->execute();
-        return $con->errno;
+
+        // if($statement->execute())return 0; else return $con->errno  
+
+        // In try - throw - catch we use the Exception class. IN THIS CASE since we want to catch 2 exceptions we made 2 php file in app/models.
+        // Those are DuplicateEmail.php && EmptyEmailField.php in which we extend Exception class with our 2 classes 1)DuplicateEmail 2) EmptyEmailField
+
+        try {
+            if ($statement->execute()) return 0;
+            else
+                switch ($con->errno) {
+                    case 0:
+                        return 0;
+                        break;
+                    case 1062;
+                        throw new DuplicateEmail;
+                    case 3819;
+                        throw new EmptyEmailField;
+                }
+        } catch (DuplicateEmail $e) {
+            return 1062;
+        } catch (EmptyEmailField $e) {
+            return 3819;
+        }
     }
 }

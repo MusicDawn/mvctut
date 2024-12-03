@@ -3,6 +3,9 @@
 use PHPUnit\Framework\TestCase;
 use UserModelNamespace\UserModel;
 
+use function PHPUnit\Framework\assertTrue;
+use function PHPUnit\Framework\once;
+
 //We set up a phpunit test by setting it up as a class!
 class FormTest extends TestCase
 {
@@ -64,8 +67,42 @@ class FormTest extends TestCase
 
 
 
-    //----------- Those 3 Integration Tests check if the code in UserModel does what is sopused to do!
-    public function testFormSubmissionFunc()
+
+    //----------- Those are Mock tests and we are testing our code, regardless of the database.
+    // Basicly we mocking (pretending) that we have a database so we can test our code!
+    // In order this to work we have to Adjust UserModel from $statement->execute(); return $con->errno;
+    //to return $statement->execute(); // return $con->errno;
+    public function testFormSubmissionMock()
+    {
+        $con = $this->createMock(mysqli::class);
+        $stmt = $this->createMock(mysqli_stmt::class);
+        $first_name = "panos";
+        $last_name = "kostakis";
+        $email = "panos@kim.gr";
+        $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES (? , ? , ?)";
+        $con->expects($this->once())
+            ->method('prepare')
+            ->with($query)
+            ->willReturn($stmt);
+        $stmt->expects($this->once())
+            ->method('bind_param')
+            ->with("sss", $first_name, $last_name, $email)
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        $sql = new UserModel;
+        $result = $sql->createUser($con, 'panos', 'kostakis', 'panos@kim.gr');
+        $this->assertEquals(0 , $result, "If this test has failed, You suck ass :)))!");
+    }
+
+
+
+
+
+    //----------- Those 2 Integration Tests check if the code in UserModel does what is sopused to do!
+    public function testFormSubmissionIntegration()
     {
         $query = new UserModel;
         $result = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
@@ -73,7 +110,7 @@ class FormTest extends TestCase
         $this->assertEquals(0, $result, "If this test has failed, delete entry in Database!");
     }
 
-    public function testForDuplicateEmailFunc()
+    public function testForDuplicateEmailIntegration()
     {
         $query = new UserModel;
         $result = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
