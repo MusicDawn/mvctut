@@ -10,7 +10,8 @@ use mysqli_stmt;
 
 class UserModel
 {
-    function createUser($con, $first_name, $last_name, $email)
+    // The &$errorMsg is a Parameter by referance and it gets defined inside the function createUser()
+    function createUser($con, $first_name, $last_name, $email, &$ErrorMsg)
     {
         // Here we excecute the querry so whatever we write into our form will go into database.
         // On valued insteasd of '$first_name' , '$last_name' , '$email' we use ? , ? , ? since on $statement->bind_param we use them
@@ -39,21 +40,20 @@ class UserModel
         // Those are DuplicateEmail.php && EmptyEmailField.php in which we extend Exception class with our 2 classes 1)DuplicateEmail 2) EmptyEmailField
 
         try {
-            if ($statement->execute()) return 0;
+            if ($statement->execute()) return true;
             else
                 switch ($con->errno) {
-                    case 0:
-                        return 0;
-                        break;
                     case 1062;
-                        throw new DuplicateEmail;
+                        throw new DuplicateEmail("Your email is already being used!");
                     case 3819;
-                        throw new EmptyEmailField;
+                        throw new EmptyEmailField("You must have an email nerd!");
                 }
         } catch (DuplicateEmail $e) {
-            return 1062;
+            $ErrorMsg = $e->getMessage();
+            return false;
         } catch (EmptyEmailField $e) {
-            return 3819;
+            $ErrorMsg = $e->getMessage();
+            return false;
         }
     }
 }

@@ -15,7 +15,7 @@
             <input type="email" id="email" name="email">
             <label for="email">Email</label>
             <!-- Here the isset checks if the $error exists (check UserController.php) -->
-            <?php if(isset($error)) echo $error;?>
+            <?php if(isset($errorMsg)) echo '<div style = "color: red" >' . $errorMsg. '</div><br><br>' ?>
         </div>
         <div class="inputBox">
             <!-- Submit basicly will set this form into action -->

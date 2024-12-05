@@ -42,7 +42,6 @@ require_once('mysqlconnect.php');
     <pre style="position: absolute; bottom :0; left: 5px;">
     Method : <?php echo ($_SERVER['REQUEST_METHOD']); ?>
     <br>
-    class:: <?php echo UserController::class; ?>
     <br>
     URI :<?php echo ($_SERVER['REQUEST_URI']); ?>       
     </pre>
