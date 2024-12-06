@@ -29,9 +29,8 @@ class UserController
             $email = $_POST['email'];
             //Since we are in a class now we have to instatiate the class UserModel in order to have createUser() function working.
             $store = new UserModel;
-            $errorMsg = "";
-            $result = $store->createUser($con, $first_name, $last_name, $email, $errorMsg);
-            if($result) require_once('app/views/success.php');
+            $errorMsg = $store->createUser($con, $first_name, $last_name, $email);
+            if ($errorMsg==="") require_once('app/views/success.php');
             else require_once('app/views/home.php');
 
 

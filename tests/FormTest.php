@@ -6,6 +6,7 @@ use UserModelNamespace\UserModel;
 use function PHPUnit\Framework\assertTrue;
 use function PHPUnit\Framework\once;
 
+
 //We set up a phpunit test by setting it up as a class!
 class FormTest extends TestCase
 {
@@ -93,8 +94,8 @@ class FormTest extends TestCase
             ->willReturn(true);
 
         $sql = new UserModel;
-        $result = $sql->createUser($con, 'panos', 'kostakis', 'panos@kim.gr');
-        $this->assertEquals(0 , $result, "If this test has failed, You suck ass :)))!");
+        $errorMsg = $sql->createUser($con, 'panos', 'kostakis', 'panos@kim.gr');
+        $this->assertEquals('' , $errorMsg, "If this test has failed, You suck ass :)))!");
     }
 
 
@@ -105,17 +106,17 @@ class FormTest extends TestCase
     public function testFormSubmissionIntegration()
     {
         $query = new UserModel;
-        $result = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
+        $errorMsg = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
         // Since createUser returns 0; we have to use the method assertEquals.
-        $this->assertEquals(0, $result, "If this test has failed, delete entry in Database!");
+        $this->assertEquals('', $errorMsg, "If this test has failed, delete entry in Database!");
     }
 
     public function testForDuplicateEmailIntegration()
     {
         $query = new UserModel;
-        $result = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
+        $errorMsg = $query->createUser($this->con, 'panos', 'kostakis', 'panos@kim.gr');
         // Since createUser returns 1062; (since we have duplicate email) we have to use the method assertEquals.
-        $this->assertEquals(1062, $result, "If this test has failed, delete entry in Database!");
+        $this->assertEquals('Your email is already being used!', $errorMsg, "If this test has failed, delete entry in Database!");
         $this->deleteRow();
     }
 
@@ -130,8 +131,8 @@ class FormTest extends TestCase
     public function testForEmptyEmailField()
     {
         $query = new UserModel;
-        $result = $query->createUser($this->con, 'panos', 'kostakis', '');
+        $errorMsg = $query->createUser($this->con, 'panos', 'kostakis', '');
         // Since createUser returns 3819; (since we have duplicate email) we have to use the method assertEquals.
-        $this->assertEquals(3819, $result);
+        $this->assertEquals('You must have an email nerd!', $errorMsg);
     }
 }
