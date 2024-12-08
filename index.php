@@ -3,9 +3,7 @@
 
 //We required that so we can use autoload from PHPUnit
 require "vendor/autoload.php";
-
-use UserControllerSpace\UserController;
-
+use RouterSpace\Routes;
 require_once('env.php');
 require_once('mysqlconnect.php');
 // require_once('app/models/UserModel.php');
@@ -26,16 +24,21 @@ require_once('mysqlconnect.php');
 
 <body>
     <?php
-    // Those are our Routes
-    if ($_SERVER['REQUEST_URI'] == "/") {
-        //We instatiating so we can use the function home() which is inside UserController class.
-        $home = new UserController;
-        $home->home();
-    } else if ($_SERVER['REQUEST_URI'] == "/index.php") {
-        //We instatiating so we can use the function create() which is inside UserController class.
-        $creator = new UserController;
-        $creator->create($con);
-    }
+    // Those are our Routes the logic is in routes/Routes.php
+    $router = new Routes;
+    $router->addRoutes('/', 'UserControllerSpace\UserController', 'home');    
+    $router->addRoutes('/index.php', 'UserControllerSpace\UserController', 'create');
+
+    //Those are our OLD "Routes"
+    // if ($_SERVER['REQUEST_URI'] == "/") {
+    //     //We instatiating so we can use the function home() which is inside UserController class.
+    //     $home = new UserController;
+    //     $home->home();
+    // } else if ($_SERVER['REQUEST_URI'] == "/index.php") {
+    //     //We instatiating so we can use the function create() which is inside UserController class.
+    //     $creator = new UserController;
+    //     $creator->create($con);
+    // }
     ?>
 
     <!-- This is so we can see at the bottom of the page the $_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_URI']. -->

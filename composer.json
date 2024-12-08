@@ -5,7 +5,8 @@
     "autoload": {
         "psr-4": {
             "UserModelNamespace\\": "app/models/",
-            "UserControllerSpace\\": "app/controllers/"
+            "UserControllerSpace\\": "app/controllers/",
+            "RouterSpace\\": "routes/"
         }
     }
 }

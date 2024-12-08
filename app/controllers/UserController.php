@@ -15,11 +15,17 @@ $errorbool2 = false;
 
 class UserController
 {
+    private $con;
+    public function __construct()
+    {
+        global $con;
+        $this->con = $con;
+    }
     function home()
     {
         require_once('app/views/home.php');
     }
-    function create($con)
+    function create()
     {
         // This code will be excuted when we press Submit
         // The isset here basicly look if the Superglobal $_POST is created. (check home.php)
@@ -29,7 +35,7 @@ class UserController
             $email = $_POST['email'];
             //Since we are in a class now we have to instatiate the class UserModel in order to have createUser() function working.
             $store = new UserModel;
-            $errorMsg = $store->createUser($con, $first_name, $last_name, $email);
+            $errorMsg = $store->createUser($this->con, $first_name, $last_name, $email);
             if ($errorMsg==="") require_once('app/views/success.php');
             else require_once('app/views/home.php');
 
