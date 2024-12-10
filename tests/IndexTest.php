@@ -25,16 +25,16 @@ class IndexTest extends TestCase
     }
 
     // This function is commented out because phpunit is fucked up when we have headers.
-    // public function testIndexOutput(): void
-    // {
-    //     // Ob = Output Buffer 
-    //     ob_start();
-    //     require("index.php");
-    //     $contents = ob_get_contents();
-    //     ob_end_clean();
+    public function testIndexOutput(): void
+    {
+        // Ob = Output Buffer 
+        ob_start();
+        require("index.php");
+        $contents = ob_get_contents();
+        ob_end_clean();
 
-    //     $this->assertStringContainsString('<div class="box">', $contents);
-    // }
+        $this->assertStringContainsString('<body>', $contents);
+    }
 
     protected function tearDown(): void
     {
