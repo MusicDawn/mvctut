@@ -6,7 +6,14 @@ use Exception;
 
 class Routes
 {
+    // private $uri;
     private $routes = [];
+
+    // public function __construct()
+    // {
+    //     $this->uri = $_SERVER['REQUEST_URI'];
+    // }
+
 
     public function addRoutes($uri, $controller, $method)
     {

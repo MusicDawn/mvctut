@@ -24,6 +24,7 @@ class UserController
     function home()
     {
         require_once('app/views/home.php');
+        return "URI Does not exist!";
     }
     function create()
     {

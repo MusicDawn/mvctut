@@ -1,5 +1,5 @@
 <div class="box">
-        <!-- // Form -->
+    <!-- // Form -->
          <!-- // When we press Submit button we basicly create the Superglobal ($_POST in our case).The Superglobal did not exist until we click submit -->
     <form action="index.php" method="post">
         <div class="inputBox">
