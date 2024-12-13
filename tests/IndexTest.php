@@ -50,43 +50,40 @@ class IndexTest extends TestCase
         $this->assertStringContainsString('<div class="box">', $contents);
     }
 
-    public function testRouterUriExceptionIntegration()
+    public function testRouteUriExceptionIntegration()
     {
-        $_SERVER['REQUEST_URI'] = "/asdf";
+        $_SERVER['REQUEST_URI']="/asdf";
         $routes = new Routes;
         $controller = new UserController;
-        $routes->addRoutes('/', 'UserController', 'home');
-
         ob_start();
-        echo $controller->home();
+        $routes->addRoutes('/','UserController','home');
+        $controller->home();
         $contents = ob_get_clean();
-        // var_dump($contents);
-
-        $this->assertStringContainsString('URI Does not exist!', $contents);
+        $this->assertStringContainsString('URI Does not exist!',$contents);   
     }
 
-    // public function testRouteControllerExceptionIntegration()
-    // {
-    //     $_SERVER['REQUEST_URI'] = "/";
-    //     $routes = new Routes;
-    //     $controller = new UserController;
-    //     $routes->addRoutes('/', 'UserControllerBroken', 'home');
-    //     ob_start();
-    //     $controller->home();
-    //     $contents = ob_get_clean();
-    //     $this->assertStringContainsString('Class Name Does not exist!', $contents);
-    // }
+    public function testRouteControllerExceptionIntegration()
+    {
+        $_SERVER['REQUEST_URI']="/";
+        $routes = new Routes;
+        $controller = new UserController;
+        ob_start();
+        $routes->addRoutes('/','UserControllerBroken','home');
+        $controller->home();
+        $contents = ob_get_clean();
+        $this->assertStringContainsString('Class Name Does not exist!',$contents);  
+    }
 
-    // public function testRouteMethodExceptionIntegration()
-    // {
-    //     $_SERVER['REQUEST_URI'] = "/";
-    //     $routes = new Routes;
-    //     $controller = new UserController;
-    //     $routes->addRoutes('/', 'UserController', 'Broken');
-    //     ob_start();
-    //     $contents = ob_get_clean();
-    //     $this->assertStringContainsString('Method Does not exist!', $contents);
-    // }
+    public function testRouteMethodExceptionIntegration()
+    {
+        $_SERVER['REQUEST_URI']="/";
+        $routes = new Routes;
+        $controller = new UserController;
+        ob_start();
+        $routes->addRoutes('/','UserController','Broken');
+        $contents = ob_get_clean();
+        $this->assertStringContainsString('Class Name Does not exist!',$contents);   
+    }
 
     protected function tearDown(): void
     {
