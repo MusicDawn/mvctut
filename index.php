@@ -22,8 +22,7 @@ require_once('mysqlconnect.php');
     <?php
     // Those are our Routes the logic is in routes/Routes.php
     $router = new Routes;
-    $router->addRoutes('/','UserControllerSpace\UserController', 'home');    
-    $router->addRoutes('/index.php', 'UserControllerSpace\UserController', 'create');
+    $router->dispatch();
     ?>
    
    
