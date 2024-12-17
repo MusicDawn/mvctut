@@ -8,19 +8,18 @@ use UserControllerSpace\UserController;
 
 class Routes
 {
-    private $routes = [];
-
+    public $routes = [];
     public function addRoutes($uri, $controller, $method)
     {
         $this->routes[$uri] = ['controller' => $controller, 'method' => $method];
     }
 
 
-    private function createRoutes()
+    public function createRoutes()
     {
-        $this->addRoutes('/', UserController::class, 'home');
-        $this->addRoutes('/index.php', UserController::class, 'create');
-        $this->addRoutes('/list', ListController::class, 'listusers');
+        $this->addRoutes('/', 'UserControllerSpace\ListController', 'home');
+        $this->addRoutes('/index.php','UserControllerSpace\ListController', 'create');
+        $this->addRoutes('/list', 'UserControllerSpace\ListController', 'listusers');
     }
 
 

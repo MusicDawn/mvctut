@@ -43,7 +43,7 @@ class IndexTest extends TestCase
         $_SERVER['REQUEST_URI'] = "/";
         $routes = new Routes;
         $controller = new UserController;
-        $routes->addRoutes('/', 'UserController', 'home');
+        $routes->dispatch();
         ob_start();
         $controller->home();
         $contents = ob_get_clean();
@@ -52,37 +52,50 @@ class IndexTest extends TestCase
 
     public function testRouteUriExceptionIntegration()
     {
-        $_SERVER['REQUEST_URI']="/asdf";
+        $_SERVER['REQUEST_URI'] = "/broken";
         $routes = new Routes;
         $controller = new UserController;
         ob_start();
-        $routes->addRoutes('/','UserController','home');
+        $routes->dispatch();
         $controller->home();
         $contents = ob_get_clean();
-        $this->assertStringContainsString('URI Does not exist!',$contents);   
+        $this->assertStringContainsString('URI Does not exist!', $contents);
     }
 
     public function testRouteControllerExceptionIntegration()
     {
-        $_SERVER['REQUEST_URI']="/";
-        $routes = new Routes;
-        $controller = new UserController;
+        $_SERVER['REQUEST_URI'] = "/";
+        $routesMock = $this->createPartialMock(Routes::class, ['createRoutes']);
+        // $routesMock = new Routes;
+        // $routesMock->craeteRoutes();
+        $routesMock->expects($this->once())
+            ->method('createRoutes')
+            // First test example with willReturn
+            ->willReturn($routesMock->routes = ['/' => ['controller' => 'Broken', 'method' => 'Broken']]);
+
         ob_start();
-        $routes->addRoutes('/','UserControllerBroken','home');
-        $controller->home();
+        $routesMock->dispatch();
         $contents = ob_get_clean();
-        $this->assertStringContainsString('Class Name Does not exist!',$contents);  
+        $this->assertStringContainsString('Class Name Does not exist!', $contents);
     }
 
     public function testRouteMethodExceptionIntegration()
     {
-        $_SERVER['REQUEST_URI']="/";
-        $routes = new Routes;
-        $controller = new UserController;
+        $_SERVER['REQUEST_URI'] = "/";
+        $routesMock = $this->createPartialMock(Routes::class, ['createRoutes']);
+        // $routesMock = new Routes;
+        // $routesMock->craeteRoutes();
+        $routesMock->expects($this->once())
+            ->method('createRoutes')
+            // Second test example with willReturnCallback
+            ->willReturnCallback(function () use ($routesMock) {
+                $routesMock->routes = ['/' => ['controller' => 'UserControllerSpace\UserController', 'method' => 'broken']];
+            });
+
         ob_start();
-        $routes->addRoutes('/','UserController','Broken');
+        $routesMock->dispatch();
         $contents = ob_get_clean();
-        $this->assertStringContainsString('Class Name Does not exist!',$contents);   
+        $this->assertStringContainsString('Method Does not exist!', $contents);
     }
 
     protected function tearDown(): void

@@ -17,6 +17,7 @@ class UserModel
         $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES (? , ? , ?)";
 
         $statement = $con->prepare($query);
+        //$statement = new mysqli_stmt; This happens automaticly from the pre-defined prepare method!!
         //bind_param Method uses the "sss" !3 strings! if we want to sanitize int we use i, d for float, d for blob.
         $statement->bind_param("sss", $first_name, $last_name, $email);
 
@@ -40,3 +41,4 @@ class UserModel
         return $errorMsg;
     }
 }
+
