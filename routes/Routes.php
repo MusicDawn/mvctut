@@ -14,11 +14,12 @@ class Routes implements RoutesInterface
     public function dispatch():void
     {
         $this->createRoutes();
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         try {
-            if (!array_key_exists($_SERVER['REQUEST_URI'], $this->routes)) throw new Exception("URI Does not exist!");
-            $controller = $this->routes[$_SERVER['REQUEST_URI']]['controller'];
+            if (!array_key_exists($uri, $this->routes)) throw new Exception("URI Does not exist!");
+            $controller = $this->routes[$uri]['controller'];
             if (!class_exists($controller)) throw new Exception("Class Name Does not exist!");
-            $method = $this->routes[$_SERVER['REQUEST_URI']]['method'];
+            $method = $this->routes[$uri]['method'];
             $inst = new $controller;
             if (!method_exists($inst, $method)) throw new Exception("Method Does not exist!");
             $inst->$method();

@@ -26,4 +26,17 @@ class ListController
             echo $e->getMessage();
         }
     }
+
+     public function singleuser()
+     {
+        try {
+            $result = new ListModel;
+            if (!$result) throw new Exception("Instantiaton failure");
+            $rows = $result->single($this->con, $_GET["id"]);
+            if (!$rows) throw new Exception("Method failure");
+            require_once('app/views/list.php');
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+     }
 }
