@@ -3,7 +3,6 @@
 //We required that so we can use autoload from PHPUnit
 require "vendor/autoload.php";
 use RouterSpace\Routes;
-use UserControllerSpace\UserController;
 require_once('env.php');
 require_once('mysqlconnect.php');
 ?>
@@ -24,21 +23,5 @@ require_once('mysqlconnect.php');
     $router = new Routes;
     $router->dispatch();
     ?>
-   
-   
-   
-   <!-- This is so we can see at the bottom of the page the $_SERVER['REQUEST_METHOD'] && $_SERVER['REQUEST_URI'].
-   <pre style="position: absolute; bottom :0; left: 5px;">
-       Method : <?php
-    // echo ($_SERVER['REQUEST_METHOD']);
-    ?>
-    <br><br>
-    <?php print_r($router);?>
-    <br>
-    URI :<?php
-    // echo UserController::class;
-    //  echo ($_SERVER['REQUEST_URI']);
-    ?>       
-    </pre> -->
 </body>
     </html>

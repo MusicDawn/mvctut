@@ -3,27 +3,15 @@
 namespace RouterSpace;
 
 use Exception;
-use UserControllerSpace\ListController;
-use UserControllerSpace\UserController;
+use RouterSpace\RouterSetup;
+use RouterSpace\RoutesInterface;
 
-class Routes
+class Routes implements RoutesInterface
 {
+    use RouterSetup;
     public $routes = [];
-    public function addRoutes($uri, $controller, $method)
-    {
-        $this->routes[$uri] = ['controller' => $controller, 'method' => $method];
-    }
 
-
-    public function createRoutes()
-    {
-        $this->addRoutes('/', 'UserControllerSpace\ListController', 'home');
-        $this->addRoutes('/index.php','UserControllerSpace\ListController', 'create');
-        $this->addRoutes('/list', 'UserControllerSpace\ListController', 'listusers');
-    }
-
-
-    public function dispatch()
+    public function dispatch():void
     {
         $this->createRoutes();
         try {

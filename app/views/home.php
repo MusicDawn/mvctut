@@ -22,4 +22,5 @@
             <input type="submit" name="submit" value="Submit">
         </div>
     </form>
+    <a href="list" class="myButton">Go to list</a>
 </div>
