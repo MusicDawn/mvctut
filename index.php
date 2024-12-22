@@ -25,7 +25,14 @@ require_once('mysqlconnect.php');
     // Those are our Routes the logic is in routes/Routes.php
     $router = new Routes;
     $router->dispatch();
-    
+    echo "<pre>";
+    echo "<br> The print_r(\$_GET); Give us : ";
+    print_r($_GET);
+    echo "<br> The echo \$_SERVER['REQUEST URI']; Give us : ";
+    echo $_SERVER['REQUEST_URI'];
+    echo "<br> The parse_url(\$_SERVER['REQUEST URI'], PHP_URL_PATH); Give us : ";
+    echo $uri;    
+    echo "</pre>";
     ?>
 </body>
 
