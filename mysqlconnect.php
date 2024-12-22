@@ -7,11 +7,13 @@ try {
     $con = new mysqli($host, $username, $password, $database);
 
     if ($con->connect_error) {
+        // connect_error is a property of mysqli (ctrl+click to check it out.)
         throw new Exception('Error: ' . $con->connect_error);
     }
     //In the parenthesis Exception $ex we basicly instatiating $ex since it is a Typehint.
 } catch (Exception $ex) {
     // We created a file in VANILLA error.log and below with those parameters we send the error text there
+    // error_log is global PhP function!
     error_log($ex->getMessage(), 3, 'error.log');
     echo "Can't connect at the momment!";
 }

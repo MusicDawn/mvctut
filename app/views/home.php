@@ -23,4 +23,5 @@
         </div>
     </form>
     <a href="list" class="myButton">Go to list</a>
+    <a href="listfa" class="myButton">Go to list F.A.</a>
 </div>
