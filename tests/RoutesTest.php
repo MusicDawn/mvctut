@@ -8,8 +8,9 @@ class RoutesTest extends TestCase
 {
     public function testRouteSuccessIntegration()
     {
-        $_SERVER['REQUEST_URI'] = "/";
+        // $_SERVER['REQUEST_URI'] = "/";
         $routes = new Routes;
+        $routes->uri = '/';
         $controller = new UserController;
         ob_start();
         $routes->dispatch();
@@ -20,8 +21,8 @@ class RoutesTest extends TestCase
 
     public function testRouteUriExceptionIntegration()
     {
-        $_SERVER['REQUEST_URI'] = "/broken";
         $routes = new Routes;
+        $routes->uri = '/broken';
         $controller = new UserController;
         ob_start();
         $routes->dispatch();
@@ -32,8 +33,8 @@ class RoutesTest extends TestCase
 
     public function testRouteControllerExceptionIntegration()
     {
-        $_SERVER['REQUEST_URI'] = "/";
         $routesMock = $this->createPartialMock(Routes::class, ['createRoutes']);
+        $routesMock->uri ='/';
         // $routesMock = new Routes;
         // $routesMock->craeteRoutes();
         $routesMock->expects($this->once())
@@ -49,8 +50,8 @@ class RoutesTest extends TestCase
 
     public function testRouteMethodExceptionIntegration()
     {
-        $_SERVER['REQUEST_URI'] = "/";
         $routesMock = $this->createPartialMock(Routes::class, ['createRoutes']);
+        $routesMock->uri ='/';
         // $routesMock = new Routes;
         // $routesMock->craeteRoutes();
         $routesMock->expects($this->once())

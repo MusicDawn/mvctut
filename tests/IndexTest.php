@@ -31,7 +31,6 @@ class IndexTest extends TestCase
         ob_start();
         require("index.php");
         $contents = ob_get_clean();
-
         $this->assertStringContainsString('<body>', $contents);
     }
   
