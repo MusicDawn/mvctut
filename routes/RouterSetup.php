@@ -13,6 +13,8 @@ trait RouterSetup
     
     public function addRoutes($uri, $controller, $method)
     {
+        // When we use the square bracket syntax on thel left or the '=' the contents of the square brackets will be the definition of a new key.
+        // Example $test['examplekey']=[1,2]; this is the same as $test = ['examplekey' =>[1,2]];
         $this->routes[$uri] = ['controller' => $controller, 'method' => $method];
     }
 

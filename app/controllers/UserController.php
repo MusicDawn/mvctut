@@ -15,12 +15,15 @@ $errorbool2 = false;
 
 class UserController
 {
+    // this private $con is defined inside this class has nothing to do with the $con that is in the mysqlconnect.php file
     private $con;
     public function __construct()
     {
+        // global $con is the $con that is in the mysqlconnect.php file
         global $con;
         $this->con = $con;
     }
+    
     function home()
     {
         require_once('app/views/home.php');

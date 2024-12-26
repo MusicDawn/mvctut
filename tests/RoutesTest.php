@@ -8,14 +8,14 @@ class RoutesTest extends TestCase
 {
     public function testRouteSuccessIntegration()
     {
-        $_SERVER['REQUEST_URI'] = "/broken";
+        $_SERVER['REQUEST_URI'] = "/";
         $routes = new Routes;
         $controller = new UserController;
         ob_start();
         $routes->dispatch();
         $controller->home();
         $contents = ob_get_clean();
-        $this->assertStringContainsString('URI Does not exist!', $contents);
+        $this->assertStringContainsString('<div class="box">', $contents);
     }
 
     public function testRouteUriExceptionIntegration()
