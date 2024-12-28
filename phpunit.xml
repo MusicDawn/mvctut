@@ -16,5 +16,8 @@
         <testsuite name="Routes">
             <directory>tests</directory>
         </testsuite>
+        <testsuite name="List">
+            <directory>tests</directory>
+        </testsuite>
     </testsuites>
 </phpunit>    
