@@ -9,10 +9,21 @@ class ListTest extends TestCase
     protected function setUp(): void
     {
         $this->con = new mysqli("localhost", "panos", "", "mvctut");
+        $this->idnumberSetUp();
         $this->createPanosKim();
     }
 
-        private function createPanosKim()
+    //Those are so we can fix the id order in your Databse(TablePlus)
+    private $max_id;
+    private function idnumberSetUp()
+    {
+        $sql = "SELECT MAX(id) as max_id FROM users";
+        $result = $this->con->query($sql);
+        $row = $result->fetch_assoc();
+        $this->max_id = $row['max_id'];
+    }
+
+    private function createPanosKim()
     {
         $_POST = [
             "first_name" => "Panos",
@@ -68,12 +79,10 @@ class ListTest extends TestCase
         $sql = "SELECT * FROM users";
         $result = $this->con->query($sql);
         $rows = $result->fetch_all(MYSQLI_ASSOC);
-        $lastrow=NULL;
-        foreach ($rows as $row)$lastrow=$row['first_name'];
+        $lastrow = NULL;
+        foreach ($rows as $row) $lastrow = $row['first_name'];
         $this->assertEquals('Panos', $lastrow);
     }
-
-    
 
     public function testListMethodContentFetchAllEnd()
     {
@@ -81,7 +90,7 @@ class ListTest extends TestCase
         $sql = "SELECT * FROM users";
         $result = $this->con->query($sql);
         $rows = $result->fetch_all(MYSQLI_ASSOC);
-        $last=end($rows);
+        $last = end($rows);
         $this->assertEquals('Panos', $last['first_name']);
     }
 
@@ -91,9 +100,17 @@ class ListTest extends TestCase
         $this->con->query($query);
     }
 
+    private function idNumberTearDown()
+    {
+        $newMax = $this->max_id + 1;
+        $sql = "ALTER TABLE users AUTO_INCREMENT =$newMax";
+        $result = $this->con->query($sql);
+    }
+
     protected function tearDown(): void
     {
         $this->deleteRow();
+        $this->idNumberTearDown();
         $this->con->close();
     }
 }

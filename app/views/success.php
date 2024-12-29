@@ -1,1 +1,1 @@
-<div>Press for <a href="/">Home</a></div>
+<div>Press for  <a href="/", class="myButton">Home</a></div>
