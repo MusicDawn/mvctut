@@ -23,7 +23,7 @@ class IndexTest extends TestCase
         $this->assertTrue($result);
     }
 
-    // This function is commented out because phpunit is fucked up when we have headers.
+    // This function is commented out because phpunit is fucked up when we have headers.!
     public function testIndexOutput(): void
     {
         // $_SERVER['REQUEST_URI']="/";
