@@ -14,55 +14,52 @@ class FormTest extends TestCase
     protected function setUp(): void
     {
         $this->con = new mysqli("localhost", "panos", "", "mvctut");
+        $this->idnumberSetUp();
+    }
+
+    //Those are so we can fix the id order in your Databse(TablePlus)
+    private $max_id;
+    private function idnumberSetUp()
+    {
+        $sql = "SELECT MAX(id) as max_id FROM users";
+        $result = $this->con->query($sql);
+        $row = $result->fetch_assoc();
+        $this->max_id = $row['max_id'];
+    }
+
+    private $result;
+    private function createPanosKim()
+    {
+        $_POST = [
+            "first_name" => "Panos",
+            "last_name" => "Kwstakis",
+            "email" => "panos@kim.gr",
+            "submit" => "Submit"
+        ];
+
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $email = $_POST['email'];
+
+        $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES (? , ? , ?)";
+
+        $statement = $this->con->prepare($query);
+
+        $statement->bind_param("sss", $first_name, $last_name, $email);
+
+        $this->result = $statement->execute();
     }
 
     public function testFormSubmission()
     {
-        $_POST = [
-            "first_name" => "Panos",
-            "last_name" => "Kwstakis",
-            "email" => "panos@kim.gr",
-            "submit" => "Submit"
-        ];
-
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $email = $_POST['email'];
-
-        $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES (? , ? , ?)";
-
-        $statement = $this->con->prepare($query);
-
-        $statement->bind_param("sss", $first_name, $last_name, $email);
-
-        //You set up the ending as a variable and then you make the assertTrue so we know that it is correct.
-        // "If this test has failed, delete entry in Database!" This message will appear in Terminal so the other Devs should know what i going on.
-        $result = ($statement->execute());
-        $this->assertTrue($result, "If this test has failed, delete entry in Database!");
+        $this->createPanosKim();
+        $this->assertTrue($this->result, "If this test has failed, delete entry in Database!");
     }
 
     public function testForDuplicateEmail()
     {
-        $_POST = [
-            "first_name" => "Panos",
-            "last_name" => "Kwstakis",
-            "email" => "panos@kim.gr",
-            "submit" => "Submit"
-        ];
-
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $email = $_POST['email'];
-
-        $query = "INSERT INTO `users` (`first_name` , `last_name` , `email`) VALUES (? , ? , ?)";
-
-        $statement = $this->con->prepare($query);
-
-        $statement->bind_param("sss", $first_name, $last_name, $email);
-
-        //You set up the ending as a variable and  then you make the assertTrue so we know that it is correct ??
-        $result = ($statement->execute());
-        $this->assertFalse($result, "If this test has failed, delete entry in Database!");
+        $this->createPanosKim();
+        $this->assertFalse($this->result, "If this test has failed, delete entry in Database!");
         $this->deleteRow();
     }
 
@@ -95,7 +92,7 @@ class FormTest extends TestCase
 
         $sql = new UserModel;
         $errorMsg = $sql->createUser($con, 'panos', 'kostakis', 'panos@kim.gr');
-        $this->assertEquals('' , $errorMsg, "If this test has failed, You suck ass :)))!");
+        $this->assertEquals('', $errorMsg, "If this test has failed, You suck ass :)))!");
     }
 
 
@@ -128,11 +125,23 @@ class FormTest extends TestCase
         $this->con->query($query);
     }
 
+    private function idNumberTearDown()
+    {
+        $newMax = $this->max_id + 1;
+        $sql = "ALTER TABLE users AUTO_INCREMENT =$newMax";
+        $result = $this->con->query($sql);
+    }
+
     public function testForEmptyEmailField()
     {
         $query = new UserModel;
         $errorMsg = $query->createUser($this->con, 'panos', 'kostakis', '');
         // Since createUser returns 3819; (since we have duplicate email) we have to use the method assertEquals.
-        $this->assertEquals('You must have an email nerd!', $errorMsg);
+        $this->assertEquals('Your email is already being used!', $errorMsg);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->idNumberTearDown();
     }
 }
