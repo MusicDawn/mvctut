@@ -11,7 +11,7 @@ class ListModel
         try {
             $sql = "SELECT * FROM users";
             $result = $con->query($sql);
-            if($con->error) throw new Exception("Datababase Error: " . $con->error); 
+            if ($con->error) throw new Exception("Datababase Error: " . $con->error);
             return $result;
         } catch (Exception $e) {
             echo $e->getMessage();
@@ -22,12 +22,26 @@ class ListModel
     {
         try {
             // We using prepare/bind_para/execute so we dont get hacked!
-            $sql = "SELECT * FROM users WHERE id=?"; 
+            $sql = "SELECT * FROM users WHERE id=?";
             $stm = $con->prepare($sql);
             $stm->bind_param("s", $id);
             $stm->execute();
             $result = $stm->get_result();
-            if($con->error) throw new Exception("Datababase Error: " . $con->error); 
+            if ($con->error) throw new Exception("Datababase Error: " . $con->error);
+            return $result;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    //Wild Card
+    public function singlewc($con, $id)
+    {
+        try {
+            // We using prepare/bind_para/execute so we dont get hacked!
+            $sql = "SELECT * FROM users WHERE id=$id";
+            $result = $con->query($sql);
+            if ($con->error) throw new Exception("Datababase Error: " . $con->error);
             return $result;
         } catch (Exception $e) {
             echo $e->getMessage();
