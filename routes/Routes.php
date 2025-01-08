@@ -6,6 +6,8 @@ use Exception;
 use RouterSpace\RouterSetup;
 use RouterSpace\RoutesInterface;
 
+use function PHPUnit\Framework\throwException;
+
 class Routes implements RoutesInterface
 {
     public $uri;
@@ -34,30 +36,27 @@ class Routes implements RoutesInterface
     public function dispatch(): void
     {
         $this->createRoutes();
-        echo "<pre>";
-        //Tip :: $routes is a Nested Assoc Array!
-        print_r($this->routes);
-        echo "</pre>";
+        // echo "<pre>";
+        // //Tip :: $routes is a Nested Assoc Array!
+        // print_r($this->routes);
+        // echo "</pre>";
         try {
+            $routeBool = false;
             foreach ($this->routes as $route => $nested) {
                 if (preg_match("#^$route$#", $this->uri, $matches)) {
+                    $routeBool = true;
                     $controller = $nested['controller'];
                     $method = $nested['method'];
                     array_shift($matches);
-                    echo "<pre>";
-                    print_r($matches);
-                    print_r($nested);
-                    echo "Uri: " . $this->uri;
-                    echo "<br>";
-                    echo "Controller: " . $controller;
-                    echo "Method: " . $method;
-                    echo "</pre>";
+                    if (!class_exists($controller)) throw new Exception("Class does not exists");
                     //This is a dynamic instantiaton since $controller is a class.
-                    $inst = new $controller;
+                    else $inst = new $controller;
+                    if (!method_exists($inst, $method)) throw new Exception("Method does not exists");
                     // ... is the spread operator which spreads all the contents of an array.
-                    $inst->$method(...$matches); // = (...$matches) = $method(15 or x number)
+                    else $inst->$method(...$matches); // = (...$matches) = $method(15 or x number)
                 }
             }
+            if (!$routeBool) throw new Exception("URI does not exists");
         } catch (Exception $e) {
             echo $e->getMessage();
         }
