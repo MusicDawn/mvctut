@@ -70,7 +70,7 @@ class ListController
      }
 
      //Wild card removing $_GET!
-     public function singleuserfawc()
+     public function singleuserfawc($id)
      {
         try {
             $inst = new ListModel;

@@ -34,26 +34,30 @@ class Routes implements RoutesInterface
     public function dispatch(): void
     {
         $this->createRoutes();
-        // echo "<pre>";
-        // print_r($this->routes);
-        // echo "</pre>";
+        echo "<pre>";
+        //Tip :: $routes is a Nested Assoc Array!
+        print_r($this->routes);
+        echo "</pre>";
         try {
-            // array_key_exists() returns true if the given key is set in the array. key can be any value possible for an array index.
-            if (!array_key_exists($this->uri, $this->routes)) throw new Exception("URI Does not exist!");
-            $controller = $this->routes[$this->uri]['controller'];
-            echo "<pre>";
-            var_dump($this->uri);
-            var_dump($controller);
-            echo "</pre>";
-            if (!class_exists($controller)) throw new Exception("Class Name Does not exist!");
-            $method = $this->routes[$this->uri]['method'];
-            echo "<pre>";
-            var_dump($method);
-            echo "</pre>";
-            //This is a dynamic instantiaton since $controller is a class.
-            $inst = new $controller;
-            if (!method_exists($inst, $method)) throw new Exception("Method Does not exist!");
-            $inst->$method();
+            foreach ($this->routes as $route => $nested) {
+                if (preg_match("#^$route$#", $this->uri, $matches)) {
+                    $controller = $nested['controller'];
+                    $method = $nested['method'];
+                    array_shift($matches);
+                    echo "<pre>";
+                    print_r($matches);
+                    print_r($nested);
+                    echo "Uri: " . $this->uri;
+                    echo "<br>";
+                    echo "Controller: " . $controller;
+                    echo "Method: " . $method;
+                    echo "</pre>";
+                    //This is a dynamic instantiaton since $controller is a class.
+                    $inst = new $controller;
+                    // ... is the spread operator which spreads all the contents of an array.
+                    $inst->$method(...$matches); // = (...$matches) = $method(15 or x number)
+                }
+            }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
