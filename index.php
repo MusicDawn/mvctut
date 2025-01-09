@@ -38,6 +38,10 @@ require_once('mysqlconnect.php');
 
 </html>
 
+<!-- // echo "<pre>";
+// print_r($GLOBALS);
+// echo "</pre>"; -->
+
 <!-- echo "<pre>";
     print_r($_SERVER);
     echo "</pre>"; -->

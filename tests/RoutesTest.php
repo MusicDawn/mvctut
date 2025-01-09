@@ -1,12 +1,13 @@
-<?php 
+<?php
 
 use RouterSpace\Routes;
 use PHPUnit\Framework\TestCase;
+use UserControllerSpace\ListController;
 use UserControllerSpace\UserController;
 
-class RoutesTest extends TestCase 
+class RoutesTest extends TestCase
 {
-    public function testRouteSuccessIntegration()
+    public function testRoutesSuccessIntegration()
     {
         // $_SERVER['REQUEST_URI'] = "/";
         $routes = new Routes;
@@ -19,7 +20,7 @@ class RoutesTest extends TestCase
         $this->assertStringContainsString('<div class="box">', $contents);
     }
 
-    public function testRouteUriExceptionIntegration()
+    public function testRoutesUriExceptionIntegration()
     {
         $routes = new Routes;
         $routes->uri = '/broken';
@@ -31,10 +32,10 @@ class RoutesTest extends TestCase
         $this->assertStringContainsString('URI Does not exist!', $contents);
     }
 
-    public function testRouteControllerExceptionIntegration()
+    public function testRoutesControllerExceptionIntegration()
     {
         $routesMock = $this->createPartialMock(Routes::class, ['createRoutes']);
-        $routesMock->uri ='/';
+        $routesMock->uri = '/';
         // $routesMock = new Routes;
         // $routesMock->craeteRoutes();
         $routesMock->expects($this->once())
@@ -48,10 +49,10 @@ class RoutesTest extends TestCase
         $this->assertStringContainsString('Class Name Does not exist!', $contents);
     }
 
-    public function testRouteMethodExceptionIntegration()
+    public function testRoutesMethodExceptionIntegration()
     {
         $routesMock = $this->createPartialMock(Routes::class, ['createRoutes']);
-        $routesMock->uri ='/';
+        $routesMock->uri = '/';
         // $routesMock = new Routes;
         // $routesMock->craeteRoutes();
         $routesMock->expects($this->once())
@@ -65,5 +66,20 @@ class RoutesTest extends TestCase
         $routesMock->dispatch();
         $contents = ob_get_clean();
         $this->assertStringContainsString('Method Does not exist!', $contents);
+    }
+
+    public function testRoutesCptureGroupIntegration()
+    {
+        $routes = new Routes;
+        $routes->uri = '/singleuserfawc/15';
+        $con = $this->createMock(mysqli::class);
+        $listctr1 = new ListController($con);
+        ob_start();
+        $routes->dispatch();
+        // Use the following to see output from <pre> tag inside output methods (if they exist xD)
+        $output = $this->getActualOutput();
+        ob_get_clean();
+        echo $output;
+        $this->assertIsArray($routes->matches);
     }
 }

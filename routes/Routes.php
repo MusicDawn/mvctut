@@ -12,6 +12,7 @@ class Routes implements RoutesInterface
 {
     public $uri;
     //$uri1=null means that by default it is null! Also if $uri1=null means that it is not set!!
+    // The variable $uri and the contructor are set like this to assist testing
     public function __construct($uri1 = null)
     {
         // Similar to turnery means that if $uri !null then $uri = $uri1, if it is null then the code after the ?? will be executed!
@@ -31,6 +32,7 @@ class Routes implements RoutesInterface
     // RouterSetup is a trait so we using it like this.
     use RouterSetup;
     public $routes = [];
+    public $matches = [];
 
 
     public function dispatch(): void
@@ -43,20 +45,21 @@ class Routes implements RoutesInterface
         try {
             $routeBool = false;
             foreach ($this->routes as $route => $nested) {
+                $route = str_replace(":id", "([0-9]+)", $route);
                 if (preg_match("#^$route$#", $this->uri, $matches)) {
                     $routeBool = true;
                     $controller = $nested['controller'];
                     $method = $nested['method'];
                     array_shift($matches);
-                    if (!class_exists($controller)) throw new Exception("Class does not exists");
+                    if (!class_exists($controller)) throw new Exception("Class Name Does not exist!");
                     //This is a dynamic instantiaton since $controller is a class.
                     else $inst = new $controller;
-                    if (!method_exists($inst, $method)) throw new Exception("Method does not exists");
+                    if (!method_exists($inst, $method)) throw new Exception("Method Does not exist!");
                     // ... is the spread operator which spreads all the contents of an array.
                     else $inst->$method(...$matches); // = (...$matches) = $method(15 or x number)
                 }
             }
-            if (!$routeBool) throw new Exception("URI does not exists");
+            if (!$routeBool) throw new Exception("URI Does not exist!");
         } catch (Exception $e) {
             echo $e->getMessage();
         }

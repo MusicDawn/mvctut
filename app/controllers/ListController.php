@@ -7,13 +7,13 @@ use UserModelNamespace\ListModel;
 
 class ListController
 {
-    // this private $con is defined inside this class has nothing to do with the $con that is in the mysqlconnect.php file
-    private $con;
-    public function __construct()
+    // this $con is defined inside this class has nothing to do with the $con that is in the mysqlconnect.php file
+    public $con;
+    public function __construct($con1 = null)
     {
-        // global $con is the $con that is in the mysqlconnect.php file
-        global $con;
-        $this->con = $con;
+        // $this->con is the $con that is in the mysqlconnect.php file 
+        // The variable $con and the contructor are set like this to assist testing
+        $this->con = $con1 ?? $GLOBALS['con'];
     }
 
     public function listusers()
@@ -42,8 +42,8 @@ class ListController
         }
     }
 
-     public function singleuser()
-     {
+    public function singleuser()
+    {
         try {
             $result = new ListModel;
             if (!$result) throw new Exception("Instantiaton failure");
@@ -53,34 +53,34 @@ class ListController
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-     }
+    }
 
-     public function singleuserfa()
-     {
+    public function singleuserfa()
+    {
         try {
             $inst = new ListModel;
             if (!$inst) throw new Exception("Instantiaton failure");
-            $result= $inst->single($this->con, $_GET["id"]);
+            $result = $inst->single($this->con, $_GET["id"]);
             if (!$result) throw new Exception("Method failure");
             $row = $result->fetch_assoc();
             require_once('app/views/list.php');
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-     }
+    }
 
-     //Wild card removing $_GET!
-     public function singleuserfawc($id)
-     {
+    //Wild card removing $_GET!
+    public function singleuserfawc($id)
+    {
         try {
             $inst = new ListModel;
             if (!$inst) throw new Exception("Instantiaton failure");
-            $result= $inst->singlewc($this->con, $id);
+            $result = $inst->singlewc($this->con, $id);
             if (!$result) throw new Exception("Method failure");
             $row = $result->fetch_assoc();
             require_once('app/views/list.php');
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-     }
+    }
 }

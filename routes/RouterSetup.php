@@ -28,6 +28,6 @@ trait RouterSetup
         $this->addRoutes('/singleuser', ListController::class, 'singleuser');
         $this->addRoutes('/singleuserfa', ListController::class, 'singleuserfa');
         //In the first parameter which is uri we will use regular expression!
-        $this->addRoutes('/singleuserfawc/([0-9]+)', ListController::class, 'singleuserfawc');
+        $this->addRoutes('/singleuserfawc/:id', ListController::class, 'singleuserfawc');
     }
 }
