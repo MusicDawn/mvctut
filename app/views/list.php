@@ -45,15 +45,20 @@
         // echo "<br>";
         // print_r($row);
         // echo "<br>";
-        print_r($result);
+        // print_r($result);
             ?>
             <tr>
-                <td><?php echo $row['first_name']; ?></td>
-                <td><?php echo $row['last_name']; ?></td>
-                <td><?php echo $row['email']; ?></td>
-                <td><a href="/list" class="myButton">List</a></td>?>
-
-            <?php } ?>
+                <?php
+                if (isset($row['id'])) {
+                ?>
+                    <td><?php echo $row['first_name']; ?></td>
+                    <td><?php echo $row['last_name']; ?></td>
+                    <td><?php echo $row['email']; ?></td>
+                    <td><a href="/list" class="myButton">List</a></td>?>
+                <?php } else { ?>
+                    <td>Don't mess with Uri dogger.</td>
+            <?php  }
+            } ?>
 
 
             </tr>
