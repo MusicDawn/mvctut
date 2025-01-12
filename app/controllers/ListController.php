@@ -69,7 +69,7 @@ class ListController
         }
     }
 
-    //Wild card removing $_GET!
+    //Wild card removing $_GET! and qury_string!
     public function singleuserfawc($id)
     {
         try {

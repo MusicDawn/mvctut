@@ -2,6 +2,8 @@
 
 use PhpParser\Node\Stmt\Foreach_;
 use PHPUnit\Framework\TestCase;
+use RouterSpace\Routes;
+use UserControllerSpace\ListController;
 
 class ListTest extends TestCase
 {
@@ -93,6 +95,47 @@ class ListTest extends TestCase
         $last = end($rows);
         $this->assertEquals('Panos', $last['first_name']);
     }
+
+    public function testIntListPageButtonSingleUser()
+    {
+        $_SERVER['REQUEST_URI'] = "/list";
+        // ListController has ($uri1=null) as a parameter which means that can have or not a parameter!
+        $controller = new ListController($this->con);
+        ob_start();
+        $controller->listusers();
+        $contents = ob_get_clean();
+        $this->assertStringContainsString('Single User', $contents);
+    }
+
+    public function testIntSingleUserPageButtonList()
+    {
+        $_SERVER['REQUEST_URI'] = "/singleuser?id=" . $this->max_id;
+        $_GET["id"] = $this->max_id;
+        // ListController has ($uri1=null) as a parameter which means that can have or not a parameter!
+        $controller = new ListController($this->con);
+        ob_start();
+        $controller->singleuser();
+        $contents = ob_get_clean();
+        $this->assertStringContainsString('List', $contents);
+    }
+
+    public function testIntWildCardPageButtonList()
+    {
+        $_SERVER['REQUEST_URI'] = "/singleuserfawc/" . $this->max_id;
+        $_GET["id"] = $this->max_id;
+        // ListController has ($uri1=null) as a parameter which means that can have or not a parameter!
+        $controller = new ListController($this->con);
+        ob_start();
+        $controller->singleuserfawc($this->max_id);
+        $contents = ob_get_clean();
+        $this->assertStringContainsString('List', $contents);
+    }
+
+
+
+
+
+
 
     public function deleteRow()
     {
