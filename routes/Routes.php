@@ -57,6 +57,7 @@ class Routes implements RoutesInterface
                     if (!method_exists($inst, $method)) throw new Exception("Method Does not exist!");
                     // ... is the spread operator which spreads all the contents of an array.
                     else $inst->$method(...$matches); // = (...$matches) = $method(15 or x number)
+                    return;
                 }
             }
             if (!$routeBool) throw new Exception("URI Does not exist!");
