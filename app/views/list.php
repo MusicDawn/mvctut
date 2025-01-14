@@ -1,4 +1,5 @@
 <!-- //Here we will create a table, our syntex will look like this! -->
+<!-- The entire File (list.php) is a part gets rendered into the function called by the router -->
 <a href="/" class="myButton">Home</a>
 <table>
     <tr>
@@ -9,7 +10,8 @@
     </tr>
     <?php
     // PHP_URL_PATH tells parse_url() to return only the path component of the URL.
-    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    // The following is commented out because it is in the constructor in ListController for test issues.
+    // $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     if ($uri == "/list") {
         // print_r($rows);
         foreach ($rows as $row) { ?>

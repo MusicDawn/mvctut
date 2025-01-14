@@ -3,3 +3,4 @@ error.log
 /vendor
 .phpunit.result.cache
 env.php
+tests/log.php

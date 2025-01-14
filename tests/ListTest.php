@@ -98,9 +98,8 @@ class ListTest extends TestCase
 
     public function testIntListPageButtonSingleUser()
     {
-        $_SERVER['REQUEST_URI'] = "/list";
         // ListController has ($uri1=null) as a parameter which means that can have or not a parameter!
-        $controller = new ListController($this->con);
+        $controller = new ListController("/list", $this->con);
         ob_start();
         $controller->listusers();
         $contents = ob_get_clean();
@@ -109,22 +108,18 @@ class ListTest extends TestCase
 
     public function testIntSingleUserPageButtonList()
     {
-        $_SERVER['REQUEST_URI'] = "/singleuser?id=" . $this->max_id;
-        $_GET["id"] = $this->max_id;
         // ListController has ($uri1=null) as a parameter which means that can have or not a parameter!
-        $controller = new ListController($this->con);
+        $controller = new ListController("/singleuser", $this->con);
         ob_start();
-        $controller->singleuser();
+        $controller->singleuser($this->max_id);
         $contents = ob_get_clean();
         $this->assertStringContainsString('List', $contents);
     }
 
     public function testIntWildCardPageButtonList()
     {
-        $_SERVER['REQUEST_URI'] = "/singleuserfawc/" . $this->max_id;
-        $_GET["id"] = $this->max_id;
         // ListController has ($uri1=null) as a parameter which means that can have or not a parameter!
-        $controller = new ListController($this->con);
+        $controller = new ListController("/singleuserfawc/" . $this->max_id, $this->con);
         ob_start();
         $controller->singleuserfawc($this->max_id);
         $contents = ob_get_clean();
@@ -155,5 +150,14 @@ class ListTest extends TestCase
         $this->deleteRow();
         $this->idNumberTearDown();
         $this->con->close();
+    }
+
+    //A function that logs things into /tests/log.php
+    private function log($message)
+    {
+        $logfile = __DIR__ . '/log.php';
+        $timestamp = date(DATE_RSS);
+        $formatted_message = "[$timestamp].$message" . PHP_EOL;
+        file_put_contents($logfile, $formatted_message, FILE_APPEND);
     }
 }
