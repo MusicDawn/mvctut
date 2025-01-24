@@ -24,4 +24,5 @@
     </form>
     <a href="list" class="myButton">Go to list</a>
     <a href="listfa" class="myButton">Go to list F.A.</a>
+    <a href="listajax" class="myButton">Go to list Ajax</a>
 </div>

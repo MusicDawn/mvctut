@@ -29,5 +29,10 @@ trait RouterSetup
         $this->addRoutes('/singleuserfa', ListController::class, 'singleuserfa');
         //In the first parameter which is uri we will use regular expression!
         $this->addRoutes('/singleuserfawc/:id', ListController::class, 'singleuserfawc');
+        //Ajax Routes
+        $this->addRoutes('/listajax', ListController::class, 'ajaxload');
+        $this->addRoutes('/listusers', ListController::class, 'ajaxlistusers');
+        $this->addRoutes('/listuser/:id', ListController::class, 'ajaxsingleuser');
+        $this->addRoutes('/listuser', ListController::class, 'ajaxsingleuserQ');
     }
 }

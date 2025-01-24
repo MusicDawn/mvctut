@@ -20,7 +20,7 @@ class ListController
 
     public function listusers()
     {
-        $uri=$this->uri;
+        $uri = $this->uri;
         try {
             $result = new ListModel;
             if (!$result) throw new Exception("Instantiaton failure");
@@ -34,7 +34,7 @@ class ListController
 
     public function listusersfa()
     {
-        $uri=$this->uri;
+        $uri = $this->uri;
         try {
             $inst = new ListModel;
             if (!$inst) throw new Exception("Instantiaton failure");
@@ -46,14 +46,14 @@ class ListController
         }
     }
 
-    public function singleuser($id=NULL)
+    public function singleuser($id = NULL)
     {
         $id = $id ?? $_GET["id"];
-        $uri=$this->uri;
+        $uri = $this->uri;
         try {
             $result = new ListModel;
             if (!$result) throw new Exception("Instantiaton failure");
-            $rows = $result->single($this->con,$id);
+            $rows = $result->single($this->con, $id);
             if (!$rows) throw new Exception("Method failure");
             require('app/views/list.php');
         } catch (Exception $e) {
@@ -61,9 +61,9 @@ class ListController
         }
     }
 
-    public function singleuserfa($id=NULL)
+    public function singleuserfa($id = NULL)
     {
-        $uri=$this->uri;
+        $uri = $this->uri;
         $id = $id ?? $_GET["id"];
         try {
             $inst = new ListModel;
@@ -80,7 +80,7 @@ class ListController
     //Wild card removing $_GET! and qury_string!
     public function singleuserfawc($id)
     {
-        $uri=$this->uri;
+        $uri = $this->uri;
         try {
             $inst = new ListModel;
             if (!$inst) throw new Exception("Instantiaton failure");
@@ -88,6 +88,73 @@ class ListController
             if (!$result) throw new Exception("Method failure");
             $row = $result->fetch_assoc();
             require('app/views/list.php');
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
+    //-------- Ajax functions
+    public function ajaxload()
+    {
+        require('app/views/listajax.php');
+    }
+
+    public function ajaxlistusers()
+    {
+        // echo "Ignore the page :D";
+        try {
+            $result = new ListModel;
+            if (!$result) throw new Exception("Instantiaton failure");
+            $rows = $result->list($this->con);
+            if (!$rows) throw new Exception("Method failure");
+            $users = [];
+            while ($row = $rows->fetch_assoc()) {
+                $users[] = $row;
+            }
+            header('Content-Type: application/json');
+            ob_clean();
+            //The method json_encode bring the $users to a json format!
+            echo json_encode($users);
+            exit;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+
+    public function ajaxsingleuser($id)
+    {
+        try {
+            $inst = new ListModel;
+            if (!$inst) throw new Exception("Instantiaton failure");
+            $result = $inst->singlewc($this->con, $id);
+            if (!$result) throw new Exception("Method failure");
+            $row = $result->fetch_assoc();
+            header('Content-Type: application/json');
+            ob_clean();
+            //The method json_encode bring the $users to a json format!
+            echo json_encode($row);
+            exit;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function ajaxsingleuserQ($id = NULL)
+    {
+        $id = $id ?? $_GET["id"];
+        try {
+            $inst = new ListModel;
+            if (!$inst) throw new Exception("Instantiaton failure");
+            $result = $inst->single($this->con, $id);
+            if (!$result) throw new Exception("Method failure");
+            $row = $result->fetch_assoc();
+            header('Content-Type: application/json');
+            ob_clean();
+            //The method json_encode bring the $users to a json format!
+            echo json_encode($row);
+            exit;
         } catch (Exception $e) {
             echo $e->getMessage();
         }
