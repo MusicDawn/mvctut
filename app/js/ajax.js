@@ -28,6 +28,7 @@ function loadlist() {
                      <td>${users[i].last_name}</td>
                      <td>${users[i].email}</td>
                      <td><a onclick="loadsingle(${users[i].id})" class="myButton">Wild Card</a></td>
+                     <td><a onclick="loadsingleFetchAPI(${users[i].id})" class="myButton">Fetch API</a></td>
                      <td><a onclick="loadsingleQ(${users[i].id})" class="myButton">Query String</a></td>
                   </tr>`
         }
@@ -36,6 +37,7 @@ function loadlist() {
     }
 }
 
+//Using XMLHttpRequest.
 function loadsingle(id) {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "/listuser/" + id)
@@ -61,6 +63,30 @@ function loadsingle(id) {
     }
 }
 
+//Using fetch.
+function loadsingleFetchAPI(id) {
+    fetch("/listuser/" + id)
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function(users){
+        html = `<tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Click to User</th>
+            </tr>`
+        html += `<tr>s
+                 <td>${users.first_name}</td>
+                 <td>${users.last_name}</td>
+                 <td>${users.email}</td>
+                 <td><a onclick="loadlist()" class="myButton">List</a></td>
+              </tr>`
+
+            var tags = document.getElementsByTagName('table')[0].innerHTML = html;
+        })
+    }
+
 // Q from query_string
 function loadsingleQ(id) {
     const xhr = new XMLHttpRequest();
@@ -82,7 +108,5 @@ function loadsingleQ(id) {
               </tr>`
 
         var tags = document.getElementsByTagName('table')[0].innerHTML = html;
-
-
     }
 }

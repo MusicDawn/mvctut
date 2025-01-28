@@ -26,7 +26,11 @@ class ListController
             if (!$result) throw new Exception("Instantiaton failure");
             $rows = $result->list($this->con);
             if (!$rows) throw new Exception("Method failure");
-            require('app/views/list.php');
+            require('app\views\components\header.php');
+            foreach ($rows as $row) {
+                require('app/views/list.php');
+            }
+            echo "</table>";
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -40,7 +44,11 @@ class ListController
             if (!$inst) throw new Exception("Instantiaton failure");
             $result = $inst->list($this->con);
             if (!$result) throw new Exception("Method failure");
-            require('app/views/list.php');
+            require('app\views\components\header.php');
+            while ($row = $result->fetch_assoc()) {
+                require('app/views/list.php');
+            }
+            echo "</table>";
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -55,7 +63,11 @@ class ListController
             if (!$result) throw new Exception("Instantiaton failure");
             $rows = $result->single($this->con, $id);
             if (!$rows) throw new Exception("Method failure");
-            require('app/views/list.php');
+            require('app\views\components\header.php');
+            foreach ($rows as $row) {
+                require('app/views/list.php');
+            }
+            echo "</table>";
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -70,8 +82,10 @@ class ListController
             if (!$inst) throw new Exception("Instantiaton failure");
             $result = $inst->single($this->con, $id);
             if (!$result) throw new Exception("Method failure");
+            require('app\views\components\header.php');
             $row = $result->fetch_assoc();
             require('app/views/list.php');
+            echo "</table>";
         } catch (Exception $e) {
             echo $e->getMessage();
         }
@@ -86,8 +100,10 @@ class ListController
             if (!$inst) throw new Exception("Instantiaton failure");
             $result = $inst->singlewc($this->con, $id);
             if (!$result) throw new Exception("Method failure");
+            require('app\views\components\header.php');
             $row = $result->fetch_assoc();
             require('app/views/list.php');
+            echo "</table>";
         } catch (Exception $e) {
             echo $e->getMessage();
         }
