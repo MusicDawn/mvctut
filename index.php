@@ -24,24 +24,26 @@ require_once('mysqlconnect.php');
     <?php
     // Those are our Routes the logic is in routes/Routes.php
     $router = new Routes;
-    $router->dispatch();
-    // echo "<pre>";
-    // echo "<br> The print_r(\$_GET); Give us : ";
-    // print_r($_GET);
-    // echo "<br> The echo \$_SERVER['REQUEST URI']; Give us : ";
-    // echo $_SERVER['REQUEST_URI'];
-    // echo "<br> The parse_url(\$_SERVER['REQUEST URI'], PHP_URL_PATH); Give us : ";
-    // echo $router->uri;    
-    // echo "</pre>";
-    ?>
+    $router->dispatch(); ?>
+
+    <select id="bgcolorpick">
+        <option value="white">White</option>
+        <option value="blue">Blue</option>
+        <option value="purple">Purple</option>
+    </select>
+    <button onclick="saveColor()">Save Color </button>
+
+    <script>
+        function saveColor() {
+            //color basicly = the value of our options above
+            let color = document.getElementById("bgcolorpick").value
+            //locaStorage Prototype uses setItem method to set key/value pair in Application/Local Storage
+            localStorage.setItem("bgcolor", color)
+            //This line acually giving us the color from the key/value pair in Application/Local Storage
+            document.body.style.backgroundColor = localStorage.getItem("bgcolor")
+        }
+    </script>
+
 </body>
 
 </html>
-
-<!-- // echo "<pre>";
-// print_r($GLOBALS);
-// echo "</pre>"; -->
-
-<!-- echo "<pre>";
-    print_r($_SERVER);
-    echo "</pre>"; -->
