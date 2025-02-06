@@ -129,3 +129,17 @@ a {
 	top:1px;
 }
 
+select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    font-size: 16px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+select:hover {
+    border-color: #888;
+}
+

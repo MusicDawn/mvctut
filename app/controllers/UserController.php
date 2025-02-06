@@ -23,7 +23,7 @@ class UserController
         global $con;
         $this->con = $con;
     }
-    
+
     function home()
     {
         require_once('app/views/home.php');
@@ -39,25 +39,9 @@ class UserController
             //Since we are in a class now we have to instatiate the class UserModel in order to have createUser() function working.
             $store = new UserModel;
             $errorMsg = $store->createUser($this->con, $first_name, $last_name, $email);
-            if ($errorMsg==="") require_once('app/views/success.php');
+            if ($errorMsg === "") require_once('app/views/success.php');
             else require_once('app/views/home.php');
-
-
-            // We commented this out because we want to keep all of our logic in UserModel (since the error that we have are database dependant)
-            // switch ($result) {
-            //     // The errno === 0 ; mean that we dont have an ERROR!!
-            //     case 0:
-            //         require_once('app/views/success.php');
-            //         break;
-            //     case 1062:
-            //         $error =  '<div style = "color: red" >Your email is already being used!</div> <br> <br>';
-            //         require_once('app/views/home.php');
-            //         break;
-            //     case 3819;
-            //         $error =  '<div style = "color: red" >You must have an email nerd!</div> <br> <br>';
-            //         require_once('app/views/home.php');
-            //         break;
-            // }
+            setcookie("FirstName",$first_name,time()+10,"/");
         }
     }
 }

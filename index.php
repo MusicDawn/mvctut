@@ -27,21 +27,26 @@ require_once('mysqlconnect.php');
     $router->dispatch(); ?>
 
     <select id="bgcolorpick">
+        <option value="">Original Color (Light-Blue)</option>
         <option value="white">White</option>
         <option value="blue">Blue</option>
         <option value="purple">Purple</option>
     </select>
-    <button onclick="saveColor()">Save Color </button>
+
 
     <script>
-        function saveColor() {
+        //This makes the brower keeps the colour even if we refresh the page.
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.style.backgroundColor = localStorage.getItem("bgcolor")
+            document.getElementById("bgcolorpick").value = localStorage.getItem('bgcolor')
+        })
+        document.getElementById('bgcolorpick').addEventListener('change', function() {
             //color basicly = the value of our options above
             let color = document.getElementById("bgcolorpick").value
             //locaStorage Prototype uses setItem method to set key/value pair in Application/Local Storage
             localStorage.setItem("bgcolor", color)
-            //This line acually giving us the color from the key/value pair in Application/Local Storage
-            document.body.style.backgroundColor = localStorage.getItem("bgcolor")
-        }
+            document.body.style.backgroundColor = this.value
+        })
     </script>
 
 </body>
